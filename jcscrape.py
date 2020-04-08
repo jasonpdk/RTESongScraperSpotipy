@@ -5,8 +5,6 @@ import spotipy
 import spotipy.util as util
 import datetime
 import sys
-from oauth2client.service_account import ServiceAccountCredentials
-import gspread
 
 ## SPOTIFY AUTH
 username = 'XYZ'
@@ -35,20 +33,13 @@ date_string = date_par.find('span', attrs={'class':'bold'}).text
 music_played_div = soup.find('div', attrs={'class':'m32-music-played-on-show my2'})
 music_rows = music_played_div.findAll('div', attrs={'class':'small-12 columns border-bottom fill-white p2'})
 
-scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
-credentials = ServiceAccountCredentials.from_json_keyfile_name('Speedtest-4d674b2c34b4.json', scope)
-
-gc = gspread.authorize(credentials)
-
 date = ''
 if "john-creedon" in site:
     playlist_id = '0UDHYyisJpU8Zj3JTOgA4a'
     date = date_string.replace('John Creedon ', '')
-    worksheet = gc.open('John Creedon Show Song List').sheet1
 elif "simply-folk" in site:
     playlist_id = '23JPqer5rWR1lsfTpkWfm4'
     date = date_string.replace('Simply Folk ', '')
-    worksheet = gc.open('Simply Folk Song List').sheet1
 
 print(date)
 
@@ -63,8 +54,6 @@ for music_row in music_rows:
         artist = artist[:-len("(Vocal)")]
     elif artist.endswith("(Vocals)"):
         artist = artist[:-len("(Vocals)")]
-
-    worksheet.append_row([date, artist, song])
 
     ## Spotify search, query "song artist", gets the top result. This is obviouly not 100% accurate all of the time
     query = song + " " + artist
