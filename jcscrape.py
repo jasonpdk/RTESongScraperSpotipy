@@ -1,5 +1,5 @@
 ## IMPORTS
-from urllib.request import urlopen
+import urllib
 from bs4 import BeautifulSoup
 import spotipy
 import spotipy.util as util
@@ -7,7 +7,6 @@ import datetime
 import sys
 from oauth2client.service_account import ServiceAccountCredentials
 import gspread
-import datetime
 
 ## SPOTIFY AUTH
 username = 'XYZ'
@@ -21,7 +20,12 @@ sp = spotipy.Spotify(auth=token)
 
 ## BEAUTIFUL SOUP STUFF
 site = sys.argv[1]
-page = urlopen(site)
+
+try:
+    page = urllib.request.urlopen(site)
+except urllib.error.URLError as e:
+    exit(e)
+
 soup = BeautifulSoup(page, 'html.parser')
 
 date_block = soup.find('div', attrs={'class':'fill-blue-radio1 px2 py1 block overflow-hidden text-white mb1'})
