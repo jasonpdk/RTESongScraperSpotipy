@@ -21,10 +21,7 @@ sp = spotipy.Spotify(auth=token)
 
 ## BEAUTIFUL SOUP STUFF
 site = sys.argv[1]
-
-
 page = urlopen(site)
-
 soup = BeautifulSoup(page, 'html.parser')
 
 date_block = soup.find('div', attrs={'class':'fill-blue-radio1 px2 py1 block overflow-hidden text-white mb1'})
@@ -39,7 +36,6 @@ credentials = ServiceAccountCredentials.from_json_keyfile_name('Speedtest-4d674b
 
 gc = gspread.authorize(credentials)
 
-
 date = ''
 if "john-creedon" in site:
     playlist_id = '0UDHYyisJpU8Zj3JTOgA4a'
@@ -50,7 +46,6 @@ elif "simply-folk" in site:
     date = date_string.replace('Simply Folk ', '')
     worksheet = gc.open('Simply Folk Song List').sheet1
 
-
 print(date)
 
 tracks = []
@@ -58,6 +53,12 @@ for music_row in music_rows:
     songHTML = music_row.find('div', attrs={'class':'small-9 medium-10 columns mb2'})
     song = songHTML.find('p', attrs={'class':'mb1'}).text
     artist = songHTML.find('p', attrs={'class':'mb1 bold'}).text
+
+    ## Sometimes RTE add (Vocal)/(Vocals) onto the end. This helps stop getting some karaoke versions, etc.
+    if artist.endswith("(Vocal)"):
+        artist = artist[:-len("(Vocal)")]
+    elif artist.endswith("(Vocals)"):
+        artist = artist[:-len("(Vocals)")]
 
     worksheet.append_row([date, artist, song])
 
