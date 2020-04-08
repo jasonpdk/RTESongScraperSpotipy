@@ -13,7 +13,7 @@ scriptToRun = "jcscrape.py" # The scrape script to run
 
 stationName = "radio1"
 showName = "john-creedon"
-base = "https://www.rte.ie/lyricfm/" + showName + "/programmes/"
+base = "https://www.rte.ie/" + stationName + "/" + showName + "/programmes/"
 
 date = datetime.datetime(2017, 9, 4) # Start date (YYYY, MM, DD)
 endDate = datetime.datetime(2020, 4, 8) # End date (YYYY, MM, DD)
