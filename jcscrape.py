@@ -1,3 +1,11 @@
+# jcscrape.py
+# Scrapes RTE Radio 1's John Creedon Show and Simply Folk for songs played, then adds these songs to a spotify playlist
+#
+# Note: This is not entirely accurate. It totally depends on the way the song and artist are writen on the website. It searches Spotify for song + artist and accepts
+# the top result, this can be innacurate. Improvements are very welcome!
+#
+# Jason Keane - jason@keane.id
+
 ## IMPORTS
 import urllib
 from bs4 import BeautifulSoup
