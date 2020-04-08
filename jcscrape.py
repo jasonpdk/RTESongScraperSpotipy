@@ -42,11 +42,11 @@ gc = gspread.authorize(credentials)
 
 date = ''
 if "john-creedon" in site:
-    playlist_id = '15YBqI1I4n5hsDaM6LiNja'
+    playlist_id = '0UDHYyisJpU8Zj3JTOgA4a'
     date = date_string.replace('John Creedon ', '')
     worksheet = gc.open('John Creedon Show Song List').sheet1
 elif "simply-folk" in site:
-    playlist_id = '5lrJMH0WmK5Feh7J5FwrGc'
+    playlist_id = '23JPqer5rWR1lsfTpkWfm4'
     date = date_string.replace('Simply Folk ', '')
     worksheet = gc.open('Simply Folk Song List').sheet1
 
