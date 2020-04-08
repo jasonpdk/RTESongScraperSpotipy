@@ -63,7 +63,7 @@ for music_row in music_rows:
     results = sp.search(q=query, type='track', limit=1)
 
     print(song + " - " + artist)
-    print("Something found? " + len(results['tracks']['items']))
+    print("Something found? " + str(len(results['tracks']['items'])))
 
     for i, t in enumerate(results['tracks']['items']):
         ## Add spotify id to list
