@@ -11,7 +11,6 @@ username = 'XYZ'
 client_id = 'XYZ'
 client_secret = 'XYZ'
 redirect_uri = 'XYZ'
-playlist_id='XYZ'
 
 token = util.prompt_for_user_token(username, scope='playlist-modify-private,playlist-modify-public', client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri)
 sp = spotipy.Spotify(auth=token)
@@ -24,6 +23,14 @@ try:
 except urllib.error.URLError as e:
     exit(e)
 
+playlist_id = ''
+if "john-creedon" in site:
+    playlist_id = '0UDHYyisJpU8Zj3JTOgA4a'
+elif "simply-folk" in site:
+    playlist_id = '23JPqer5rWR1lsfTpkWfm4'
+else:
+    exit("Unsupported URL")
+
 soup = BeautifulSoup(page, 'html.parser')
 
 date_block = soup.find('div', attrs={'class':'fill-blue-radio1 px2 py1 block overflow-hidden text-white mb1'})
@@ -32,16 +39,6 @@ date_string = date_par.find('span', attrs={'class':'bold'}).text
 
 music_played_div = soup.find('div', attrs={'class':'m32-music-played-on-show my2'})
 music_rows = music_played_div.findAll('div', attrs={'class':'small-12 columns border-bottom fill-white p2'})
-
-date = ''
-if "john-creedon" in site:
-    playlist_id = '0UDHYyisJpU8Zj3JTOgA4a'
-    date = date_string.replace('John Creedon ', '')
-elif "simply-folk" in site:
-    playlist_id = '23JPqer5rWR1lsfTpkWfm4'
-    date = date_string.replace('Simply Folk ', '')
-
-print(date)
 
 tracks = []
 for music_row in music_rows:
