@@ -36,16 +36,26 @@ if "john-creedon" in site:
     playlist_id = '0UDHYyisJpU8Zj3JTOgA4a'
 elif "simply-folk" in site:
     playlist_id = '23JPqer5rWR1lsfTpkWfm4'
+elif "late-date" in site:
+    # playlist_id = '7Jb3DHm5log08EMsIfr53x' # Part 1
+    # playlist_id = '5Qfr3dx2uxtV91ErXQ1ue4' # Part 2
+    # playlist_id = '6MD4I1enEUkAXfOTyIXVMU' # Part 3
+    # playlist_id = '0gqNcQ6LeezY998kAUkxYe' # Part 4
+    playlist_id = '4htS4PyzyiJmQw0W54SGPP' # Part 5
+elif "the-rolling-wave" in site:
+    playlist_id = '6TicelDQj19hBHupsiNOrD'
+elif "south-wind-blows" in site:
+    playlist_id = '0d6mrzHEDsLJGqk6fSPyqp'
 else:
     exit("Unsupported URL")
 
 soup = BeautifulSoup(page, 'html.parser')
 
-date_block = soup.find('div', attrs={'class':'fill-blue-radio1 px2 py1 block overflow-hidden text-white mb1'})
-date_par = date_block.find('p', attrs={'class':'mb0'})
-date_string = date_par.find('span', attrs={'class':'bold'}).text
-
 music_played_div = soup.find('div', attrs={'class':'m32-music-played-on-show my2'})
+
+if music_played_div is None:
+    exit("No music found!")
+
 music_rows = music_played_div.findAll('div', attrs={'class':'small-12 columns border-bottom fill-white p2'})
 
 tracks = []
@@ -70,4 +80,11 @@ for music_row in music_rows:
         tracks.append(t['id'])
 
 ## Add tracks to playlist
-sp.user_playlist_add_tracks(user=username, playlist_id=playlist_id, tracks=tracks)
+if len(tracks) == 0:
+    exit("No tracks")
+
+try:
+    sp.user_playlist_add_tracks(user=username, playlist_id=playlist_id, tracks=tracks)
+    print("Added to playlist")
+except spotipy.client.SpotifyException as e:
+    exit("Error adding to playlist!")
